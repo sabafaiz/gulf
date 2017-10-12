@@ -57,7 +57,7 @@
                     <span>By - {{selectedComplaint.studentName}}</span>
                 </div>
                 <div style="width:50%;text-align:center;display:inline-block;float:right">
-                    <span [style.color]="selectedComplaint.statusColor" style="font-size : 35px;">{{selectedComplaint.commentCount || 0}}</span><br>
+                    <span [style.color]="selectedComplaint.statusColor" style="font-size : 35px;">{{selectedComplaint.commentCount}}</span><br>
                     <span [style.color]="selectedComplaint.statusColor">comments</span>
                 </div><br><br>
                 <div style="width:100%">
@@ -75,7 +75,7 @@
             <br><br><br>
 
             <div *ngIf="isStudent" style="text-align:center">
-                <button class="btn btns btn-primary">
+                <button (click)="openComments()" class="btn btns btn-primary">
                     Comments
                 </button>
                 <button (click)="toclose = true"
@@ -92,14 +92,14 @@
             </div>
 
             <div *ngIf="!isStudent" style="text-align:center">
-                    <button class="btn btns btn-primary">
+                    <button (click)="openComments()" class="btn btns btn-primary">
                         Comments
                     </button>
                     <button  (click)="toclose = true"
                     *ngIf="selectedComplaint.statusId == 1 || selectedComplaint.statusId == 3 || selectedComplaint.statusId == 2" class="btn btns btn-danger">
                         Close
                     </button>
-                    <button (click)="getDetails()" *ngIf="selectedComplaint.statusId == 3 || selectedComplaint.statusId == 1 || selectedComplaint.statusId == 3" class="btn btns btn-info">
+                    <button (click)="getDetails()" *ngIf="selectedComplaint.statusId == 3 || selectedComplaint.statusId == 1 || selectedComplaint.statusId == 2" class="btn btns btn-info">
                         Edit
                     </button>
             </div>
@@ -131,20 +131,20 @@
 
             <br *ngIf="toedit"><br *ngIf="toedit">
             <div *ngIf="toedit">
-                Status : <br>
-                <input type="checkbox" class="form-control" (change)="status = !status" placeholder="reason">
-                <br>
+                
+                <input *ngIf="selectedComplaint.statusId == 2" type="checkbox" (change)="status = !status"><span *ngIf="selectedComplaint.statusId == 2"> InProgress </span>
+                <br><br>
                 Priority : <br>
-                <select  [(ngModel)]="priority" >
+                <select class="form-control"  [(ngModel)]="priority" >
                     <option selected="true" disabled="true" value="">Choose Priority</option>
-                    <option *ngFor="let p of PriorityList" [value]="p.id">{{p.name}}</option>
-                </select>
-
-                <select>
-                    <option selected="true" disabled="true" value="">Choose Faculty</option>
+                    <option *ngFor="let p of PriorityList" [value]="p.id">{{p.id}}</option>
+                </select><br>
+                Faculty : <br>
+                <select class="form-control" [(ngModel)]="faculty">
+                    <option selected="true" disabled="true" value="null">Choose Faculty</option>
                     <option *ngFor="let f of FacultyList" [value]="f.id">{{f.name}}</option>
-                </select>
-                <button *ngIf="isStudent" (click)="editComplaint()" style="right:0px" [disabled]="reason.length == 0" class="btn btn-primary">Submit</button>
+                </select><br>
+                <button (click)="editComplaint()" style="right:0px" class="btn btn-primary">Submit</button>
             </div>
 
         </div>
@@ -167,3 +167,18 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
+
+  <div id="chat-box" class="message-box" [style.display]="isOpen ? 'block' : 'none'">
+      <div class="message-head"> Comments <span (click)="isOpen = false" style="float:right" class="glyphicon glyphicon-remove"></span> </div>
+        <div class="message-body">
+            <span style="padding:5px;border-radius:6px;background-color:#3ca7ff" *ngFor="let comment of comments" class="message">
+                <span>{{comment.comment}}</span>
+                <span style="font-size:8px; color:rgb(34, 34, 34)">{{comment.employeeName || comment.studentName}}   {{comment.createdAt | date}} </span>
+                <br><br>
+            </span>
+        </div>
+        <div class="message-foot">
+            <input type="text" [disabled]="selectedComplaint.statusId == 6 || selectedComplaint.statusId == 4 " style="display:inline;width:88%" [(ngModel)]="comment" class="form-control">
+                <span class="message-send glyphicon glyphicon-send" (click)="sendComment()"></span>
+        </div>
+  </div>

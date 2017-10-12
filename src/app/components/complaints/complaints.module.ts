@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ComplaintsComponent } from './complaints.component';
 import { RouterModule } from '@angular/router';
-import { CustomHttpService } from '../../providers/customHttp.service';
-import { Urls } from '../../providers/app.constant';
 import { CommonModule } from '@angular/common';
 import { DateFilter } from '../../pipes/date.pipe';
 import { FormsModule } from '@angular/forms';
@@ -19,8 +17,7 @@ import { FormsModule } from '@angular/forms';
             loadChildren : 'app/components/complaints/add/add.module#AddComplaintModule' 
         }
     ])],
-    declarations : [ ComplaintsComponent ],
-    providers : [ CustomHttpService,Urls ]    
+    declarations : [ ComplaintsComponent ]
 })
 export class ComplaintsModule{
 }

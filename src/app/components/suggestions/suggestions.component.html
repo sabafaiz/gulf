@@ -1,3 +1,156 @@
-<div>
-    Suggestions
-</div>
+<div class="suggestions">
+        
+           <div style="color:white;border-radius:3px;background-color:black;padding:4px;"> Suggestions >> </div>
+           <br>
+           <div *ngIf="isStudent">
+               <a style="float:right" routerLink="/suggestions/add-suggestion"><span class="glyphicon glyphicon-plus"></span></a>
+           </div>
+           <div class="cards" style="overflow:hidden" >
+               
+               <div class="card"  
+               [style.borderBottomColor]="suggestion.statusColor" 
+               *ngFor="let suggestion of suggestions; let i = index"
+               (click)="openSuggestion(suggestion, i)"
+               style="cursor:pointer" >
+       
+                   <img class="user-pic" 
+                   src="/assets/profile.png" 
+                   alt="user-pic"> 
+                   <div style="display:inline-block;width:50%;margin-left:15px;">
+                       <div style="height:20px;">{{suggestion.title}}</div><br>      
+                           <span [style.color]="suggestion.statusColor" >
+                               @{{suggestion.statusName}}</span>
+                   </div> <br>
+                   <div style="text-align:center">
+                       Against - {{suggestion.againstEmployeeName}}
+                       <br>
+                       {{suggestion.createdAt | date }} <br>
+                       Priority - {{suggestion.priority}}
+                   </div>    
+               </div>
+       
+           </div>
+           <div>
+               <button (click)="moreSuggestions()" 
+               *ngIf="more" 
+               style="border-radius:5px;font-size:20px;width:50px;left:48%" 
+               class="glyphicon glyphicon-chevron-down"></button>
+           </div>    
+       </div>
+
+<div class="modal fade" id="showComplaint" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button"  class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" >{{selectedSuggestion.title}}</h4>
+        </div>
+        <div   class="modal-body">
+            <div>
+            <img style="width:175px;height:175px;" src="/assets/profile.png" alt="user-image">
+            
+            <div style="width:65%;float:right">
+                <div style="width:50%;display:inline-block;">
+                    <span [style.color]="selectedSuggestion.statusColor" >@{{selectedSuggestion.statusName}}</span><br>
+                    <span>{{selectedSuggestion.createdAt | date}}</span> <br>
+                    <span>Priority - {{selectedSuggestion.priority}}</span><br>
+                    <span>By - {{selectedSuggestion.studentName}}</span>
+                </div>
+                <div style="width:50%;text-align:center;display:inline-block;float:right">
+                    <span [style.color]="selectedSuggestion.statusColor" style="font-size : 35px;">{{selectedSuggestion.commentCount}}</span><br>
+                    <span [style.color]="selectedSuggestion.statusColor">comments</span>
+                </div><br><br>
+                <div style="width:100%">
+                    <div style="text-align:center;background-color:brown;color:white;border-radius:5px">Against</div>
+                    <span>Category : {{selectedSuggestion.againstCategoryName}}</span><br> 
+                    <span *ngIf="selectedSuggestion.againstCategoryName == 'Faculty Member' ">Employee : {{selectedSuggestion.againstEmployeeName}}</span>
+                </div><br>
+                <div style="width:100%" *ngIf="selectedSuggestion.description">
+                    <div style="text-align:center;background-color:#337ab7 ;color:white;border-radius:5px">Description</div>
+                    <span>{{selectedSuggestion.description}}</span><br> 
+                </div>
+            </div>
+
+            </div>
+            <br><br><br>
+
+            <div *ngIf="isStudent" style="text-align:center">
+                <button (click)="openComments()" class="btn btns btn-primary">
+                    Comments
+                </button>
+                <button (click)="toclose = true"
+                 *ngIf="selectedSuggestion.statusId == 1 || selectedSuggestion.statusId == 5 || selectedSuggestion.statusId == 3 || selectedSuggestion.statusId == 2" class="btn btns btn-danger">
+                    Close
+                </button>
+                <button (click)="toreopen = true"
+                 *ngIf="selectedSuggestion.statusId == 4" class="btn btns btn-warning">
+                    Reopen
+                </button>
+                <button (click)="satisfyComplaint()" *ngIf="selectedSuggestion.statusId == 4" class="btn btns btn-success">
+                    Satisfied
+                </button>
+            </div>
+
+            <div *ngIf="!isStudent" style="text-align:center">
+                    <button (click)="openComments()" class="btn btns btn-primary">
+                        Comments
+                    </button>
+                    <button  (click)="toclose = true"
+                    *ngIf="selectedSuggestion.statusId == 1 || selectedSuggestion.statusId == 3 || selectedSuggestion.statusId == 2" class="btn btns btn-danger">
+                        Close
+                    </button>
+                    <button (click)="getDetails()" *ngIf="selectedSuggestion.statusId == 3 || selectedSuggestion.statusId == 1 || selectedSuggestion.statusId == 2" class="btn btns btn-info">
+                        Edit
+                    </button>
+            </div>
+            <br *ngIf="toclose"><br *ngIf="toclose">
+            <div *ngIf="toclose">
+                Reason : <br>
+                <input type="text" class="form-control" [(ngModel)]="reason" placeholder="reason">
+                <br *ngIf="!isStudent">
+                <span *ngIf="!isStudent">RCA : </span> 
+                <br>
+                <input *ngIf="!isStudent" type="text" class="form-control" [(ngModel)]="rca" placeholder="rca">
+                <br>
+                <button style="right:0px"
+                (click) = "closeComplaint()"
+                *ngIf="!isStudent" [disabled]="reason.length == 0 || rca.length == 0" class="btn btn-primary">Submit</button>
+                
+                <button *ngIf="isStudent"
+                (click) = "closeComplaint()"
+                style="right:0px" [disabled]="reason.length == 0 " class="btn btn-primary">Submit</button>
+            </div>
+
+            <br *ngIf="toreopen"><br *ngIf="toreopen">
+            <div *ngIf="toreopen">
+                Reason : <br>
+                <input type="text" class="form-control" [(ngModel)]="reason" placeholder="reason">
+                <br>
+                <button *ngIf="isStudent" (click)="reOpenComplaint()" style="right:0px" [disabled]="reason.length == 0" class="btn btn-primary">Submit</button>
+            </div>
+
+            <br *ngIf="toedit"><br *ngIf="toedit">
+            <div *ngIf="toedit">
+                
+                <input *ngIf="selectedSuggestion.statusId == 2" type="checkbox" (change)="status = !status"><span *ngIf="selectedSuggestion.statusId == 2"> InProgress </span>
+                <br><br>
+                Priority : <br>
+                <select class="form-control"  [(ngModel)]="priority" >
+                    <option selected="true" disabled="true" value="">Choose Priority</option>
+                    <option *ngFor="let p of PriorityList" [value]="p.id">{{p.id}}</option>
+                </select><br>
+                Faculty : <br>
+                <select class="form-control" [(ngModel)]="faculty">
+                    <option selected="true" disabled="true" value="null">Choose Faculty</option>
+                    <option *ngFor="let f of FacultyList" [value]="f.id">{{f.name}}</option>
+                </select><br>
+                <button (click)="editComplaint()" style="right:0px" class="btn btn-primary">Submit</button>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->

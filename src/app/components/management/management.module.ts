@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { ManagementComponent } from './management.component';
 import { RouterModule } from '@angular/router';
+import { CustomHttpService } from '../../providers/customHttp.service';
+import { Urls } from '../../providers/app.constant';
 
 @NgModule({
     declarations : [ManagementComponent],
@@ -20,7 +22,8 @@ import { RouterModule } from '@angular/router';
             ]
         }
         
-    ]) ]
+    ]) ],
+    providers : [ CustomHttpService,Urls ]
 })
 export class ManagementModule{
 }
