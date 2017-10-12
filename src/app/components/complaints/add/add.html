@@ -1,0 +1,81 @@
+<div style="color:white;border-radius:3px;background-color:black;padding:4px;">Add Complaint</div>
+<br>
+<div style="padding:10px;">
+    <form (submit)="addComplaint(f)" #f="ngForm">
+        
+        <input type="checkbox" 
+        [(ngModel)]="anonymous"   
+        name="anonymous" > Anonymous <br><br>
+        
+        <label for="title">Title</label>
+        <input class="form-control" 
+        type="text" 
+        id="title"
+        name="title" 
+        [(ngModel)]="title" 
+        placeholder="title" required><br>
+        
+        <label for="description">Description</label>
+        <textarea class="form-control" 
+        id="description"
+        name="description" 
+        [(ngModel)]="description" 
+        placeholder="description" required></textarea><br>
+        
+        <label for="againstCategoryId">Select Against Category </label>
+        <select class="form-control"
+        [(ngModel)] = "selectedCategory"
+        (ngModelChange) = "onChange()"
+        name="againstCategoryId" 
+        id="againstCategoryId" required>
+            <option selected=true 
+            disabled=true 
+            value=''>Select Category</option>
+            <option *ngFor="let category of categories" 
+            [ngValue]="category"  >{{category.name}}</option>
+        </select><br>
+        
+        <label *ngIf="isSub" for="againstEmployeeId">Select Sub Category</label>
+        <select *ngIf="isSub" 
+        (change) = "onChangeSub()"
+        class="form-control" 
+        [(ngModel)] = "selectedSubCategory"
+        id="againstEmployeeId" 
+        name="againstEmployeeId"  required>
+            <option selected=true 
+            disabled=true 
+            value=''>Select Sub Category</option>
+            <option *ngFor="let item of selectedCategory.subCategory" 
+            [ngValue]="item">{{ item.facultyName || item.name }}</option>
+        </select><br>
+
+        <label *ngIf="isSubsub" for="againstEmployeeId">Select Employee</label>
+        <select *ngIf="isSubsub" 
+        class="form-control" 
+        id="againstEmployeeId"
+        [(ngModel)]="againstEmployeeId"
+        name="againstEmployeeId"  required>
+            <option selected=true 
+            disabled=true 
+            value=''>Select Employee</option>
+            <option *ngFor="let item of selectedSubCategory.subCategory" 
+            [value]="item.facultyId || item.id">{{ item.facultyName || item.name }}</option>
+        </select>
+        <br *ngIf="isSubsub">
+        <input class="btn btn-primary" [disabled]="f.invalid" type="submit" >
+
+    </form>
+</div>
+
+<div class="modal fade" id="success" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Complaint Added Successfully</h4>
+          <br>
+          <button style="float:right" type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->

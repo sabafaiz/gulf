@@ -1,0 +1,14 @@
+<div>
+    Login
+    <ul class="list">
+        <li [ngClass]="type == 'management'? 'list-selected' : ''" (click)="setLoginType('management')" class="list-items">Management</li>
+        <li [ngClass]="type == 'student'? 'list-selected' : ''" (click)="setLoginType('student')" class="list-items">Student</li>
+    </ul>
+    <form [formGroup]="loginForm" (ngSubmit)="verifyUser()" > 
+        <label for="username">Username : </label>
+        <input type="text" id="username" formControlName="username" placeholder="Username">
+        <label for="password">Password : </label>
+        <input type="password" id="password" formControlName="password" placeholder="Password">
+        <input type="submit" value="Login">
+    </form>
+</div>

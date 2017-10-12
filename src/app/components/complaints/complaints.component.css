@@ -1,0 +1,18 @@
+.card{
+    float: left;
+    width : 30%;
+    margin: 1%;
+    border:2px solid grey;
+    padding : 10px;
+    border-bottom-width : 4px;    
+}
+
+.user-pic{
+    width : 100px;
+    height : 100px;
+}
+
+.btns{
+    margin-left:6px;
+    margin-right:6px;
+}

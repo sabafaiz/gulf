@@ -1,0 +1,17 @@
+.list{
+    padding-left : 0px;
+}
+
+.list-items{
+    list-style-type : none;
+    border : 1px solid black;
+    border-radius : 5px;
+    padding : 10px;
+    display : inline-block;
+    cursor: pointer;
+}
+
+.list-selected{
+    color:white;
+    background-color:black;
+}

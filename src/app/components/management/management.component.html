@@ -1,0 +1,16 @@
+<div>
+    <div class="header">
+        <span (click)="sideNavbar()" style="font-size:21px;top:8px;" id="toggle" class="glyphicon glyphicon-menu-hamburger"></span>
+        <span style="color:white;margin-left:10px;">GULF</span>
+    </div>
+
+    <div id="mySidenav" class="sidenav">
+        <a [routerLink]='["/complaints"]' routerLinkActive="active" >Complaints</a>
+        <a [routerLink]='["/suggestions"]' routerLinkActive="active" >Suggestions</a>
+    </div>
+
+    <div id="main">
+        <router-outlet></router-outlet>
+    </div>
+      
+</div>
