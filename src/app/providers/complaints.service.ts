@@ -106,4 +106,8 @@ export class ComplaintsService{
     postComment( id : any, comment : any){
         return this.http.post( this.url.serverUrl + `/${this.getType()}/${this.serviceType}/${id}/comment`,comment);
     }
+
+    search( pgNo:any, searchQuery : any){
+        return this.http.post( this.url.serverUrl + `/${this.getType()}/complaint/search/page/${pgNo}`, searchQuery);
+    }
 }

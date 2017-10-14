@@ -32,6 +32,7 @@ export class SuggestionsComponent {
     public comment: string = '';
 
     constructor(private cs: ComplaintsService) {
+        console.log("sugg compo");
         this.cs.setServiceType('suggestion');
         this.getSuggestions();
         if (localStorage.getItem('loginType') == 'student') {
@@ -82,16 +83,16 @@ export class SuggestionsComponent {
         }
     }
 
-    closeComplaint() {
+    closeSuggestion() {
         if (this.isStudent) {
             this.cs.closeComplaint(this.selectedSuggestion.id, this.reason).subscribe((res: any) => {
                 this.message = "Suggestion Closed Successfully";
                 this.suggestions[this.index] = res;
-                $('#showComplaint').modal('hide');
+                $('#showSuggestion').modal('hide');
                 $('#success').modal('show');
             }, (err: any) => {
                 this.message = err.developerMessage;
-                $('#showComplaint').modal('hide');
+                $('#showSuggestion').modal('hide');
                 $('#success').modal('show');
             })
         }
@@ -99,25 +100,25 @@ export class SuggestionsComponent {
             this.cs.closeComplaint(this.selectedSuggestion.id, this.reason, this.rca).subscribe((res: any) => {
                 this.message = "Suggestion Closed Successfully";
                 this.suggestions[this.index] = res;
-                $('#showComplaint').modal('hide');
+                $('#showSuggestion').modal('hide');
                 $('#success').modal('show');
             }, (err: any) => {
                 this.message = err.developerMessage;
-                $('#showComplaint').modal('hide');
+                $('#showSuggestion').modal('hide');
                 $('#success').modal('show');
             })
         }
     }
 
-    reOpenComplaint() {
+    reOpenSuggestion() {
         this.cs.reOpenComplaint(this.selectedSuggestion.id, this.reason).subscribe((res: any) => {
             this.message = "Suggestion ReOpend Successfully";
             this.suggestions[this.index] = res;
-            $('#showComplaint').modal('hide');
+            $('#showSuggestion').modal('hide');
             $('#success').modal('show');
         }, (err: any) => {
             this.message = err.developerMessage;
-            $('#showComplaint').modal('hide');
+            $('#showSuggestion').modal('hide');
             $('#success').modal('show');
         })
     }
@@ -126,10 +127,10 @@ export class SuggestionsComponent {
         this.cs.satisfyComplaint(this.selectedSuggestion.id).subscribe((res: any) => {
             this.message = "Success";
             this.suggestions[this.index] = res;
-            $('#showComplaint').modal('hide');
+            $('#showSuggestion').modal('hide');
             $('#success').modal('show');
         }, (err: any) => {
-            $('#showComplaint').modal('hide');
+            $('#showSuggestion').modal('hide');
             $('#success').modal('show');
         })
     }
@@ -169,18 +170,18 @@ export class SuggestionsComponent {
         this.cs.editComplaint(this.selectedSuggestion.id, obj).subscribe((res: any) => {
             this.suggestions[this.index] = res;
             this.message = "Edit Successfully";
-            $('#showComplaint').modal('hide');
+            $('#showSuggestion').modal('hide');
             $('#success').modal('show');
         }, (err: any) => {
             this.message = err.developerMessage;
-            $('#showComplaint').modal('hide');
+            $('#showSuggestion').modal('hide');
             $('#success').modal('show');
         })
     }
 
     openComments() {
         this.isOpen = true;
-        $('#showComplaint').modal('hide');
+        $('#showSuggestion').modal('hide');
         this.cs.getComments(this.selectedSuggestion.id).subscribe((res: any) => {
             console.log(res);
             this.comments = res;
@@ -200,8 +201,8 @@ export class SuggestionsComponent {
         }
         console.log("12222");
         console.log(this.suggestions);
-        let url = `/${type}/complaint/${this.selectedSuggestion.id}/comment`;
-        let url1 = `/${type}/complaint/${this.selectedSuggestion.id}/close`;
+        let url = `/${type}/suggestion/${this.selectedSuggestion.id}/comment`;
+        let url1 = `/${type}/suggestion/${this.selectedSuggestion.id}/close`;
         let that = this;
         stompClient.connect({}, (frame: any) => {
             console.log("12222");

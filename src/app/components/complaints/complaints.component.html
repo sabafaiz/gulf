@@ -3,7 +3,12 @@
     <div style="color:white;border-radius:3px;background-color:black;padding:4px;"> Complaints >> </div>
     <br>
     <div *ngIf="isStudent">
+             
         <a style="float:right" routerLink="/complaints/add-complaint"><span class="glyphicon glyphicon-plus"></span></a>
+    </div>
+    <div>
+        <input style="width:63%;display:inline-block" type="text" class="form-control" placeholder="search" #searchInput>
+        <input type="button" class="btn btn-primary" (click)="search(searchInput)" value="Search">
     </div>
     <div class="cards" style="overflow:hidden" >
         

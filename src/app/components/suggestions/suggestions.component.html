@@ -38,7 +38,7 @@
            </div>    
        </div>
 
-<div class="modal fade" id="showComplaint" tabindex="-1" role="dialog">
+<div class="modal fade" id="showSuggestion" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -86,13 +86,13 @@
                  *ngIf="selectedSuggestion.statusId == 4" class="btn btns btn-warning">
                     Reopen
                 </button>
-                <button (click)="satisfyComplaint()" *ngIf="selectedSuggestion.statusId == 4" class="btn btns btn-success">
+                <button (click)="satisfySuggestion()" *ngIf="selectedSuggestion.statusId == 4" class="btn btns btn-success">
                     Satisfied
                 </button>
             </div>
 
             <div *ngIf="!isStudent" style="text-align:center">
-                    <button (click)="openComments()" class="btn btns btn-primary">
+                    <button (click)="openSuggestion()" class="btn btns btn-primary">
                         Comments
                     </button>
                     <button  (click)="toclose = true"
@@ -113,11 +113,11 @@
                 <input *ngIf="!isStudent" type="text" class="form-control" [(ngModel)]="rca" placeholder="rca">
                 <br>
                 <button style="right:0px"
-                (click) = "closeComplaint()"
+                (click) = "closeSuggestion()"
                 *ngIf="!isStudent" [disabled]="reason.length == 0 || rca.length == 0" class="btn btn-primary">Submit</button>
                 
                 <button *ngIf="isStudent"
-                (click) = "closeComplaint()"
+                (click) = "closeSuggestion()"
                 style="right:0px" [disabled]="reason.length == 0 " class="btn btn-primary">Submit</button>
             </div>
 
@@ -126,7 +126,7 @@
                 Reason : <br>
                 <input type="text" class="form-control" [(ngModel)]="reason" placeholder="reason">
                 <br>
-                <button *ngIf="isStudent" (click)="reOpenComplaint()" style="right:0px" [disabled]="reason.length == 0" class="btn btn-primary">Submit</button>
+                <button *ngIf="isStudent" (click)="reOpenSuggestion()" style="right:0px" [disabled]="reason.length == 0" class="btn btn-primary">Submit</button>
             </div>
 
             <br *ngIf="toedit"><br *ngIf="toedit">
@@ -144,7 +144,7 @@
                     <option selected="true" disabled="true" value="null">Choose Faculty</option>
                     <option *ngFor="let f of FacultyList" [value]="f.id">{{f.name}}</option>
                 </select><br>
-                <button (click)="editComplaint()" style="right:0px" class="btn btn-primary">Submit</button>
+                <button (click)="editSuggestion()" style="right:0px" class="btn btn-primary">Submit</button>
             </div>
 
         </div>
@@ -154,3 +154,31 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
+
+  <div class="modal fade" id="success" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">{{message}}</h4>
+              <br>
+              <button style="float:right" type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+    
+      <div id="chat-box" class="message-box" [style.display]="isOpen ? 'block' : 'none'">
+          <div class="message-head"> Comments <span (click)="isOpen = false" style="float:right" class="glyphicon glyphicon-remove"></span> </div>
+            <div class="message-body">
+                <span style="padding:5px;border-radius:6px;background-color:#3ca7ff" *ngFor="let comment of comments" class="message">
+                    <span>{{comment.comment}}</span>
+                    <span style="font-size:8px; color:rgb(34, 34, 34)">{{comment.employeeName || comment.studentName}}   {{comment.createdAt | date}} </span>
+                    <br><br>
+                </span>
+            </div>
+            <div class="message-foot">
+                <input type="text" [disabled]="selectedSuggestion.statusId == 6 || selectedSuggestion.statusId == 4 " style="display:inline;width:88%" [(ngModel)]="comment" class="form-control">
+                    <span class="message-send glyphicon glyphicon-send" (click)="sendComment()"></span>
+            </div>
+      </div>

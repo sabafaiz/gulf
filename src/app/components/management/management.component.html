@@ -7,6 +7,8 @@
     <div id="mySidenav" class="sidenav">
         <a [routerLink]='["/complaints"]' routerLinkActive="active" >Complaints</a>
         <a [routerLink]='["/suggestions"]' routerLinkActive="active" >Suggestions</a>
+        <a [routerLink]='["/suggestions"]' routerLinkActive="active" >Polls</a>
+        <a (click)="logout()" routerLinkActive="active" >Log Out</a>
     </div>
 
     <div id="main">
@@ -14,3 +16,18 @@
     </div>
       
 </div>
+
+<div class="modal fade" id="logout" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Confirm Logout</h4>
+          <br>
+            
+          <button style="float:right;margin-left:3px " (click)="confirm = false" type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+          <button style="float:right" (click)="confirm = true; logout() " type="button" class="btn btn-default" data-dismiss="modal">Confirm</button>  
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->

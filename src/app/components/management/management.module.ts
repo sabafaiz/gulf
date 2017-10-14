@@ -9,6 +9,11 @@ import { Urls } from '../../providers/app.constant';
     imports : [ RouterModule.forChild([
         {
             path : '',
+            redirectTo : 'complaints',
+            pathMatch : 'full'
+        },
+        {
+            path : '',
             component : ManagementComponent,
             children : [
                 {

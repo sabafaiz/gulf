@@ -1,12 +1,15 @@
 .list{
     padding-left : 0px;
+    width:225px;
+    margin:auto;
 }
 
 .list-items{
+    width:49%;
     list-style-type : none;
     border : 1px solid black;
     border-radius : 5px;
-    padding : 10px;
+    padding : 6px;
     display : inline-block;
     cursor: pointer;
 }
@@ -14,4 +17,16 @@
 .list-selected{
     color:white;
     background-color:black;
+}
+
+#username , #password{
+    height : 40px;
+    width : 225px;
+}
+
+.btnn{
+    height : 40px;
+    width : 225px;
+    color : white;
+    background-color: black;
 }

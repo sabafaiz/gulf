@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ComplaintsService } from '../../providers/complaints.service';
-import { DateFilter } from '../../pipes/date.pipe';
+
 
 declare let $ : any;
 @Component({
@@ -12,10 +12,12 @@ declare let $ : any;
 
 export class ComplaintsComponent{
     public complaints : any [] = [];
+    public complaintsCopy : any [] = [];
     public more : boolean = true;
     public isStudent : boolean = true;
     public selectedComplaint : any = {};
-    private pgNo : number = 1; 
+    private pgNo : number = 1;
+    private pgNoS : number = 1; 
     public reason : any = '' ;
     public rca : any = '' ; 
     public isOpen : boolean = false;
@@ -32,8 +34,11 @@ export class ComplaintsComponent{
     public priority : string = '';
     public comments : any []=[];
     public comment :string ='';
+    private searching : boolean = false;
+    private searchString : any = '';
 
     constructor( private cs : ComplaintsService){
+        this.searching = false; 
         this.cs.setServiceType('complaint');
         this.getComplaints(this.pgNo);
         if(localStorage.getItem('loginType') == 'student'){
@@ -51,6 +56,9 @@ export class ComplaintsComponent{
             if(res.length < 12){
                 this.more = false;
             }
+            if(pageNo == 1){
+                this.complaintsCopy = res;
+            }
             this.complaints = this.complaints.concat(res);
         }, (err : any) => {
 
@@ -58,8 +66,14 @@ export class ComplaintsComponent{
     }
 
     moreComplaints(){
-        this.pgNo++;
-        this.getComplaints(this.pgNo);
+        if(this.searching == false){
+            this.pgNo++;
+            this.getComplaints(this.pgNo);
+        }
+        else{
+            this.pgNoS++;
+            this.search(this.searchString);
+        }
     }
 
     openComplaint( complaint : any, index : number ){
@@ -240,5 +254,41 @@ export class ComplaintsComponent{
     
             })
         }
+    }
+
+    search(str : any){
+        if(str.value != this.searchString.value){
+            this.pgNoS = 1;
+        }
+
+        this.searchString = str;
+        if(str.value == ''){
+            this.complaints = this.complaintsCopy;
+            this.searching = false;
+        }
+        this.searching = true;
+        let searchQuery = {
+            search : str.value
+        }
+
+        this.cs.search(this.pgNoS,searchQuery).subscribe( (res:any) => {
+            if(this.pgNoS == 1){
+                this.complaints = res;
+            }
+            else{
+                this.complaints = this.complaints.concat(res);
+            }
+
+            if(res.length < 12){
+                this.more = false;
+            }
+            else{
+                this.more = true;
+            }
+
+        }, (err:any) => {
+
+        })
+        console.log(str.value);   
     }
 }
