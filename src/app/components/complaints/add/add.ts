@@ -15,16 +15,26 @@ export class AddComplaintComponent{
     public isSub:boolean = false;
     public isSubsub:boolean = false;
     public categories : any [] = [];
-    public selectedCategory : any;
-    public selectedSubCategory : any ;
+    public selectedCategory : any = '' ;
+    public selectedSubCategory : any = '' ;
     public subArray : any [] = [];
     public anonymous : boolean = false;
     public title : string;
     public description : string;
-    public againstCategoryId : number;
-    public againstEmployeeId  : number;
+    public againstCategoryId : any = '' ;
+    public againstEmployeeId  : any = '';
     
+    isComplaint : boolean = true;
     constructor( private cs : ComplaintsService){
+        if( document.URL.indexOf('complaints') >= 0){
+            this.cs.setServiceType('complaint');
+            this.isComplaint = true;
+        }
+        else{
+            this.isComplaint = false;
+            this.cs.setServiceType('suggestion');
+        }
+        
         this.getCategory();
     }
 
@@ -87,7 +97,9 @@ export class AddComplaintComponent{
     }
 
     onChange(){
-        
+        this.isSub = false;
+        this.isSubsub = false;
+        this.selectedSubCategory = '';
         console.log(this.selectedCategory);
         if(this.selectedCategory.subCategory){
             this.isSub = true;

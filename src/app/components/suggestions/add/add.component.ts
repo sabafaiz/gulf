@@ -24,7 +24,9 @@ export class AddSuggestionComponent{
     public againstEmployeeId  : number;
     
     constructor( private cs : ComplaintsService){
+        this.cs.setServiceType('suggestion');
         this.getCategory();
+
     }
 
 

@@ -9,6 +9,7 @@ declare let $ : any;
 export class ManagementComponent {
     private sideNav = false;
     public confirm : boolean = false;
+    // subPoll : boolean = false;
     constructor(private router : Router){
     }
     sideNavbar() {

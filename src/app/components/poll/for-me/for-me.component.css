@@ -1,0 +1,8 @@
+.card{
+    float: left;
+    width : 97%;
+    margin: 1%;
+    border:2px solid grey;
+    padding : 10px;
+    border-bottom-width : 4px;    
+}

@@ -14,6 +14,10 @@ import { FormsModule } from '@angular/forms';
         {
             path : 'add-complaint',
             loadChildren : 'app/components/complaints/add/add.module#AddComplaintModule' 
+        },
+        {
+            path : 'add-suggestion',
+            loadChildren : 'app/components/complaints/add/add.module#AddComplaintModule' 
         }
     ])],
     declarations : [ ComplaintsComponent ],

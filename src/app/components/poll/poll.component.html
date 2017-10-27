@@ -1,0 +1,115 @@
+<div>
+    <div style="color:white;border-radius:3px;background-color:black;padding:4px;">Polls By You >> 
+        <a *ngIf="!isStudent" class="glyphicon glyphicon-plus" [routerLink]="['/polls/add-poll']" style="color:white; float:right"></a>
+    </div>
+    <br>
+    <a *ngIf="!isStudent" class="btn btn-warning" style="float:right;margin-right:10px; " [routerLink]="['/polls/for-me']">Polls For You</a>
+ 
+    <a *ngIf="!isStudent" class="btn btn-danger" style="float:right;margin-right:10px; " routerLink="/polls/closed-polls"> Closed  Polls</a>
+    
+    <br> <br>
+    <div class="cards">
+      <div *ngIf="isLoader" style="margin:auto;height:60px;width:60px;margin-top:30px;" class="loader"></div>
+        <div class="card" [style.borderBottomColor]="poll.mainAudienceColor" *ngFor="let poll of polls; let i = index"
+            style="cursor:pointer">
+
+            <!-- <img class="user-pic" src="/assets/profile.png" alt="user-pic"> -->
+            <div style="width:25%;margin-left:15px;display:inline-block;vertical-align:top">
+                <div style="height:20px;">{{poll.question}}</div>
+                <br>
+                <span [style.color]="poll.mainAudienceColor">
+                    Created By : {{poll.employeName}}</span> 
+                    <br> Created At : {{poll.createdAt | date }}
+            </div>
+           
+            <div style="width:25%;margin-left:15px;display:inline-block;vertical-align:top ">
+                Student Vote  {{poll.studentVoteCount}}
+                <br> Total Votes : {{poll.totalVote}}
+                <br> <br>
+                Audiences : <br>
+                <span *ngFor="let audi of poll.audiences || poll.departments || poll.programs || poll.modules">
+                  {{audi}} <br>
+                </span> 
+                <br><br>
+                Option Type : <br>
+                {{poll.optionTypeName}}
+            </div>
+
+            <div style="width:45%;display:inline-block">
+              <div *ngIf="!isStudent">
+                <span *ngFor="let option of poll.options">
+                  {{option.name}} <br>
+                  <div class="progress">
+                          <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" [style.width.%] = "option.percent">
+                          <span style="color:black">{{ option.percent }} %</span>
+                          </div>
+                  </div>
+                </span>
+            </div>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <div *ngIf="moreLoader" style="margin:auto;height:60px;width:60px;margin-top:30px;" class="loader"></div>
+      <div *ngIf="more" style="height:8px;width:8px;margin:auto" (click)="getPollsByTeacherCurrent();moreLoader = true" class="glyphicon glyphicon-chevron-down"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="poll" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">{{selectedPoll.question}}</h4>
+        </div>
+        <div class="modal-body">
+          Created By : {{selectedPoll.employeName}}
+          <!-- Student Vote  {{selectedPoll.studentVoteCount}} -->
+          <br> Created At : {{selectedPoll.createdAt | date }}
+          <br> Expire At : {{selectedPoll.expiredAt | date}}
+          <!-- <br> Total Votes : {{selectedPoll.totalVote}} <br> <br>    -->
+          <div *ngIf="!isStudent">
+              <span *ngFor="let option of selectedPoll.options">
+                {{option.name}} <br>
+                <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" [style.width.%] = "option.percent">
+                        <span style="color:black">{{ option.percent }} %</span>
+                        </div>
+                </div>
+              </span>
+          </div>
+          <div *ngIf="isStudent">
+              <br>
+              <form>
+                <span *ngFor="let option of selectedPoll.options">
+                    <input [type]="choiceType()" name="name" (click)="votes(option,toCheck)" #toCheck [value]="option.name" > {{ option.name}}  <br>  
+                    <br>
+                </span>
+                <input type="button" class="btn btn-success" [disabled]="vote.length == 0" (click)="submitPoll()" value="Vote">
+            </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div class="modal fade" id="message" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Message</h4>
+            </div>
+            <div class="modal-body">
+              <p>{{message}}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->

@@ -1,189 +1,310 @@
 <div class="complaints">
- 
-    <div style="color:white;border-radius:3px;background-color:black;padding:4px;"> Complaints >> </div>
-    <br>
-    <div *ngIf="isStudent">
-             
-        <a style="float:right" routerLink="/complaints/add-complaint"><span class="glyphicon glyphicon-plus"></span></a>
-    </div>
-    <div>
-        <input style="width:63%;display:inline-block" type="text" class="form-control" placeholder="search" #searchInput>
-        <input type="button" class="btn btn-primary" (click)="search(searchInput)" value="Search">
-    </div>
-    <div class="cards" style="overflow:hidden" >
-        
-        <div class="card"  
-        [style.borderBottomColor]="complaint.statusColor" 
-        *ngFor="let complaint of complaints; let i = index"
-        (click)="openComplaint(complaint, i)"
-        style="cursor:pointer" >
 
-            <img class="user-pic" 
-            src="/assets/profile.png" 
-            alt="user-pic"> 
-            <div style="display:inline-block;width:50%;margin-left:15px;">
-                <div style="height:20px;">{{complaint.title}}</div><br>      
-                    <span [style.color]="complaint.statusColor" >
-                        @{{complaint.statusName}}</span>
-            </div> <br>
-            <div style="text-align:center">
-                Against - {{complaint.againstEmployeeName}}
-                <br>
-                {{complaint.createdAt | date }} <br>
-                Priority - {{complaint.priority}}
-            </div>    
+    <div *ngIf="isComplaint" style="color:white;border-radius:3px;background-color:black;padding:4px;"> Complaints >> 
+            <a *ngIf="isStudent" class="glyphicon glyphicon-plus" [routerLink]="['/complaints/add-complaint']" style="color:white; float:right"></a>
+    </div>
+    <div *ngIf="!isComplaint" style="color:white;border-radius:3px;background-color:black;padding:4px;"> Suggestions >> 
+            <a *ngIf="isStudent" class="glyphicon glyphicon-plus" [routerLink]="['/suggestions/add-suggestion']" style="color:white; float:right"></a>
+    </div>
+    <br>
+    <!-- <div *ngIf="isStudent">
+
+        <a *ngIf="isComplaint" style="float:right" routerLink="/complaints/add-complaint">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+        <a *ngIf="!isComplaint" style="float:right" routerLink="/suggestions/add-suggestion">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+    </div> -->
+    <div style="overflow:hidden">
+        <div>
+
+            <!-- filter by -->
+            <ul class="nav navbar-nav" style="cursor:pointer">
+                <li>
+                    <a class="dropdown-toggle" style="padding:7px" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-filter"></span> Filter By : {{filterShow}}
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu multi-level">
+                        <li class="dropdown-submenu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Priority</a>
+                            <ul class="dropdown-menu" (click)="filterType = 'p';filter();">
+                                <li *ngFor="let p of PriorityList">
+                                    <a (click)="func(p)">{{p.id}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="dropdown-submenu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Status</a>
+                            <ul class="dropdown-menu" (click)="filterType = 's';filter()">
+                                <li *ngFor="let s of StatusList">
+                                    <a (click)="func(s)">{{s.name}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="dropdown-submenu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Category</a>
+                            <ul class="dropdown-menu" (click)="filterType = 'c';">
+
+                                <li class="dropdown-submenu" *ngFor="let c of category">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{c.name}}</a>
+                                    <ul class="dropdown-menu" >
+                                        <li *ngFor="let t of c.subCategory" [class]="t.subCategory ? 'dropdown-submenu' : ''">
+                                            <a *ngIf="!t.subCategory" (click)="func(t);filter()">{{t.name}}</a>
+                                            <a *ngIf="t.subCategory" class="dropdown-toggle" data-toggle="dropdown">{{t.name}}</a>
+                                            <ul *ngIf="t.subCategory" class="dropdown-menu" >
+                                                <li *ngFor="let ts of t.subCategory">
+                                                    <a (click)="func(ts);filter()">{{ts.name}}</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <span style="float:left" *ngIf="filterBy != ''" (click)="complaints=complaintsCopy;removeFilter()" class="glyphicon glyphicon-remove"></span>
+            
+            <!-- sort By -->
+            <ul class="nav navbar-nav" style="cursor:pointer;margin-left:8px;">
+                <li>
+                    <a class="dropdown-toggle" style="padding:7px" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-sort"></span> Sort By : {{sortBy}}
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu" (click)="sort()">
+                        <li>
+                            <a (click)="sortBy = 'title'">Title</a>
+                        </li>
+                        <li>
+                            <a (click)="sortBy = 'status'">Status</a>
+                        </li>
+                        <li>
+                            <a (click)="sortBy = 'category'">Category</a>
+                        </li>
+                    </ul>                   
+                </li>
+            </ul>
+            <span style="float:left" *ngIf="sortBy != ''" (click)="complaints=complaintsCopy;removeSort()" class="glyphicon glyphicon-remove"></span>
+
+            <!-- search Filed -->
+            <div style="width:63%;display:inline-block;float:left;margin-left:8px;" class="inner-addon right-addon">
+                <input type="text" class="form-control" placeholder="search" #searchInput>
+            </div>
+            <span (click)="searchInput.value='';removeSearch()" *ngIf="filtering == false && searchString.value && searchString.value.length > 0" class="glyphicon glyphicon-remove"></span>
+            <span (click)="searchInput.value='';removeFilterSearch()" *ngIf="filtering == true && searchString.value && searchString.value.length > 0" class="glyphicon glyphicon-remove"></span>
+            <input *ngIf="filtering == false" type="button" style="margin-left:8px;" class="btn btn-primary" (click)="search(searchInput)" value="Search">
+            <input *ngIf="filtering == true" type="button" style="margin-left:8px;" class="btn btn-primary" (click)="filteredSearch(searchInput)" value="Search">
+
         </div>
 
+        <div class="cards">
+            <div *ngIf="isLoader" style="margin:auto;height:60px;width:60px;margin-top:30px;" class="loader"></div>
+            <div class="card" [style.borderBottomColor]="complaint.statusColor" *ngFor="let complaint of complaints; let i = index" (click)="openComplaint(complaint, i)"
+                style="cursor:pointer">
+
+                <img class="user-pic" [src]="complaint.studentPic || '/assets/profile.png'" alt="user-pic">
+                <div style="display:inline-block;width:50%;margin-left:15px;">
+                    <div style="height:20px;">{{complaint.title}}</div>
+                    <br>
+                    <span [style.color]="complaint.statusColor">
+                        @{{complaint.statusName}}</span>
+                </div>
+                <br>
+                <div style="text-align:center">
+                    Against - {{complaint.againstEmployeeName || complaint.againstCategoryName}}
+                    <br> {{complaint.createdAt | date }}
+                    <br> Priority - {{complaint.priority}}
+                </div>
+            </div>
+
+        </div>
     </div>
     <div>
-        <button (click)="moreComplaints()" 
-        *ngIf="more" 
-        style="border-radius:5px;font-size:20px;width:50px;left:48%" 
-        class="glyphicon glyphicon-chevron-down"></button>
-    </div>    
+        <div *ngIf="moreLoader" style="margin:auto;height:40px;width:40px;margin-top:30px;" class="loader"></div>            
+        <button (click)="moreComplaints(); moreLoader = true" *ngIf="more" style="border-radius:5px;font-size:20px;width:50px;left:48%" class="glyphicon glyphicon-chevron-down"></button>
+    </div>
 </div>
 
 <div class="modal fade" id="showComplaint" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button"  class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" >{{selectedComplaint.title}}</h4>
-        </div>
-        <div   class="modal-body">
-            <div>
-            <img style="width:175px;height:175px;" src="/assets/profile.png" alt="user-image">
-            
-            <div style="width:65%;float:right">
-                <div style="width:50%;display:inline-block;">
-                    <span [style.color]="selectedComplaint.statusColor" >@{{selectedComplaint.statusName}}</span><br>
-                    <span>{{selectedComplaint.createdAt | date}}</span> <br>
-                    <span>Priority - {{selectedComplaint.priority}}</span><br>
-                    <span>By - {{selectedComplaint.studentName}}</span>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">{{selectedComplaint.title}}</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <img style="width:175px;height:175px;" [src]="selectedComplaint.studentPic || '/assets/profile.png'" alt="user-image">
+
+                    <div style="width:65%;float:right">
+                        <div style="width:50%;display:inline-block;">
+                            <span [style.color]="selectedComplaint.statusColor">@{{selectedComplaint.statusName}}</span>
+                            <br>
+                            <span>{{selectedComplaint.createdAt | date}}</span>
+                            <br>
+                            <span>Priority - {{selectedComplaint.priority}}</span>
+                            <br>
+                            <span>By - {{selectedComplaint.studentName}}</span>
+                            <br>
+                            <span *ngIf='selectedComplaint.statusName== "Closed"'>Closed On - {{selectedComplaint.closedOn | date}}</span>
+                        </div>
+                        <div style="width:50%;text-align:center;display:inline-block;float:right">
+                            <span [style.color]="selectedComplaint.statusColor" style="font-size : 35px;">{{selectedComplaint.commentCount}}</span>
+                            <br>
+                            <span [style.color]="selectedComplaint.statusColor">comments</span>
+                        </div>
+                        <br>
+                        <br>
+                        <div style="width:100%">
+                            <div style="text-align:center;background-color:brown;color:white;border-radius:5px">Against</div>
+                            <span>Category : {{selectedComplaint.againstCategoryName}}</span>
+                            <br>
+                            <span *ngIf="selectedComplaint.againstCategoryName == 'Faculty Member' ">Employee : {{selectedComplaint.againstEmployeeName}}</span>
+                        </div>
+                        <br>
+                        <div style="width:100%" *ngIf="selectedComplaint.description">
+                            <div style="text-align:center;background-color:#337ab7 ;color:white;border-radius:5px">Description</div>
+                            <span>{{selectedComplaint.description}}</span>
+                            <br>
+                        </div>
+                    </div>
+
                 </div>
-                <div style="width:50%;text-align:center;display:inline-block;float:right">
-                    <span [style.color]="selectedComplaint.statusColor" style="font-size : 35px;">{{selectedComplaint.commentCount}}</span><br>
-                    <span [style.color]="selectedComplaint.statusColor">comments</span>
-                </div><br><br>
-                <div style="width:100%">
-                    <div style="text-align:center;background-color:brown;color:white;border-radius:5px">Against</div>
-                    <span>Category : {{selectedComplaint.againstCategoryName}}</span><br> 
-                    <span *ngIf="selectedComplaint.againstCategoryName == 'Faculty Member' ">Employee : {{selectedComplaint.againstEmployeeName}}</span>
-                </div><br>
-                <div style="width:100%" *ngIf="selectedComplaint.description">
-                    <div style="text-align:center;background-color:#337ab7 ;color:white;border-radius:5px">Description</div>
-                    <span>{{selectedComplaint.description}}</span><br> 
-                </div>
-            </div>
+                <br>
+                <br>
+                <br>
 
-            </div>
-            <br><br><br>
-
-            <div *ngIf="isStudent" style="text-align:center">
-                <button (click)="openComments()" class="btn btns btn-primary">
-                    Comments
-                </button>
-                <button (click)="toclose = true"
-                 *ngIf="selectedComplaint.statusId == 1 || selectedComplaint.statusId == 5 || selectedComplaint.statusId == 3 || selectedComplaint.statusId == 2" class="btn btns btn-danger">
-                    Close
-                </button>
-                <button (click)="toreopen = true"
-                 *ngIf="selectedComplaint.statusId == 4" class="btn btns btn-warning">
-                    Reopen
-                </button>
-                <button (click)="satisfyComplaint()" *ngIf="selectedComplaint.statusId == 4" class="btn btns btn-success">
-                    Satisfied
-                </button>
-            </div>
-
-            <div *ngIf="!isStudent" style="text-align:center">
+                <div *ngIf="isStudent" style="margin-top:50px ; text-align:center">
                     <button (click)="openComments()" class="btn btns btn-primary">
                         Comments
                     </button>
-                    <button  (click)="toclose = true"
-                    *ngIf="selectedComplaint.statusId == 1 || selectedComplaint.statusId == 3 || selectedComplaint.statusId == 2" class="btn btns btn-danger">
+                    <button (click)="toclose = true" *ngIf="selectedComplaint.statusId == 1 || selectedComplaint.statusId == 5 || selectedComplaint.statusId == 3 || selectedComplaint.statusId == 2"
+                        class="btn btns btn-danger">
                         Close
                     </button>
-                    <button (click)="getDetails()" *ngIf="selectedComplaint.statusId == 3 || selectedComplaint.statusId == 1 || selectedComplaint.statusId == 2" class="btn btns btn-info">
+                    <button (click)="toreopen = true" *ngIf="selectedComplaint.statusId == 4" class="btn btns btn-warning">
+                        Reopen
+                    </button>
+                    <button (click)="satisfyComplaint()" *ngIf="selectedComplaint.statusId == 4" class="btn btns btn-success">
+                        Satisfied
+                    </button>
+                </div>
+
+                <div *ngIf="!isStudent" style="text-align:center">
+                    <button (click)="openComments()" class="btn btns btn-primary">
+                        Comments
+                    </button>
+                    <button (click)="toclose = true" *ngIf="selectedComplaint.statusId == 1 || selectedComplaint.statusId == 3 || selectedComplaint.statusId == 2"
+                        class="btn btns btn-danger">
+                        Close
+                    </button>
+                    <button (click)="toedit = true;getDetails()" *ngIf="selectedComplaint.statusId == 3 || selectedComplaint.statusId == 1 || selectedComplaint.statusId == 2"
+                        class="btn btns btn-info">
                         Edit
                     </button>
-            </div>
-            <br *ngIf="toclose"><br *ngIf="toclose">
-            <div *ngIf="toclose">
-                Reason : <br>
-                <input type="text" class="form-control" [(ngModel)]="reason" placeholder="reason">
-                <br *ngIf="!isStudent">
-                <span *ngIf="!isStudent">RCA : </span> 
-                <br>
-                <input *ngIf="!isStudent" type="text" class="form-control" [(ngModel)]="rca" placeholder="rca">
-                <br>
-                <button style="right:0px"
-                (click) = "closeComplaint()"
-                *ngIf="!isStudent" [disabled]="reason.length == 0 || rca.length == 0" class="btn btn-primary">Submit</button>
-                
-                <button *ngIf="isStudent"
-                (click) = "closeComplaint()"
-                style="right:0px" [disabled]="reason.length == 0 " class="btn btn-primary">Submit</button>
-            </div>
+                </div>
+                <br *ngIf="toclose">
+                <br *ngIf="toclose">
+                <div *ngIf="toclose">
+                    Reason :
+                    <br>
+                    <input type="text" class="form-control" [(ngModel)]="reason" placeholder="reason">
+                    <br *ngIf="!isStudent">
+                    <span *ngIf="!isStudent">RCA : </span>
+                    <br>
+                    <input *ngIf="!isStudent" type="text" class="form-control" [(ngModel)]="rca" placeholder="rca">
+                    <br>
+                    <button style="right:0px" (click)="closeComplaint()" *ngIf="!isStudent" [disabled]="reason.length == 0 || rca.length == 0"
+                        class="btn btn-primary">Submit</button>
 
-            <br *ngIf="toreopen"><br *ngIf="toreopen">
-            <div *ngIf="toreopen">
-                Reason : <br>
-                <input type="text" class="form-control" [(ngModel)]="reason" placeholder="reason">
-                <br>
-                <button *ngIf="isStudent" (click)="reOpenComplaint()" style="right:0px" [disabled]="reason.length == 0" class="btn btn-primary">Submit</button>
-            </div>
+                    <button *ngIf="isStudent" (click)="closeComplaint()" style="right:0px" [disabled]="reason.length == 0 " class="btn btn-primary">Submit</button>
+                </div>
 
-            <br *ngIf="toedit"><br *ngIf="toedit">
-            <div *ngIf="toedit">
-                
-                <input *ngIf="selectedComplaint.statusId == 2" type="checkbox" (change)="status = !status"><span *ngIf="selectedComplaint.statusId == 2"> InProgress </span>
-                <br><br>
-                Priority : <br>
-                <select class="form-control"  [(ngModel)]="priority" >
-                    <option selected="true" disabled="true" value="">Choose Priority</option>
-                    <option *ngFor="let p of PriorityList" [value]="p.id">{{p.id}}</option>
-                </select><br>
-                Faculty : <br>
-                <select class="form-control" [(ngModel)]="faculty">
-                    <option selected="true" disabled="true" value="null">Choose Faculty</option>
-                    <option *ngFor="let f of FacultyList" [value]="f.id">{{f.name}}</option>
-                </select><br>
-                <button (click)="editComplaint()" style="right:0px" class="btn btn-primary">Submit</button>
-            </div>
+                <br *ngIf="toreopen">
+                <br *ngIf="toreopen">
+                <div *ngIf="toreopen">
+                    Reason :
+                    <br>
+                    <input type="text" class="form-control" [(ngModel)]="reason" placeholder="reason">
+                    <br>
+                    <button *ngIf="isStudent" (click)="reOpenComplaint()" style="right:0px" [disabled]="reason.length == 0" class="btn btn-primary">Submit</button>
+                </div>
 
+                <br *ngIf="toedit">
+                <br *ngIf="toedit">
+                <div *ngIf="toedit">
+
+                    <input *ngIf="selectedComplaint.statusId == 2" type="checkbox" (change)="status = !status">
+                    <span *ngIf="selectedComplaint.statusId == 2"> InProgress </span>
+                    <br>
+                    <br> Priority :
+                    <br>
+                    <select class="form-control" [(ngModel)]="priority">
+                        <option selected="true" disabled="true" value="">Choose Priority</option>
+                        <option *ngFor="let p of PriorityList" [value]="p.id">{{p.id}}</option>
+                    </select>
+                    <br> Faculty :
+                    <br>
+                    <select class="form-control" [(ngModel)]="faculty">
+                        <option selected="true" disabled="true" value="null">Choose Faculty</option>
+                        <option *ngFor="let f of FacultyList" [value]="f.id">{{f.name}}</option>
+                    </select>
+                    <br>
+                    <button (click)="editComplaint()" style="right:0px" class="btn btn-primary">Submit</button>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
-  <div class="modal fade" id="success" tabindex="-1" role="dialog">
+<div class="modal fade" id="success" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">{{message}}</h4>
-          <br>
-          <button style="float:right" type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">{{message}}</h4>
+                <br>
+                <button style="float:right" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
-  <div id="chat-box" class="message-box" [style.display]="isOpen ? 'block' : 'none'">
-      <div class="message-head"> Comments <span (click)="isOpen = false" style="float:right" class="glyphicon glyphicon-remove"></span> </div>
-        <div class="message-body">
-            <span style="padding:5px;border-radius:6px;background-color:#3ca7ff" *ngFor="let comment of comments" class="message">
-                <span>{{comment.comment}}</span>
-                <span style="font-size:8px; color:rgb(34, 34, 34)">{{comment.employeeName || comment.studentName}}   {{comment.createdAt | date}} </span>
-                <br><br>
-            </span>
-        </div>
-        <div class="message-foot">
-            <input type="text" [disabled]="selectedComplaint.statusId == 6 || selectedComplaint.statusId == 4 " style="display:inline;width:88%" [(ngModel)]="comment" class="form-control">
-                <span class="message-send glyphicon glyphicon-send" (click)="sendComment()"></span>
-        </div>
-  </div>
+<div id="chat-box" class="message-box" [style.display]="isOpen ? 'block' : 'none'">
+    <div class="message-head"> Comments
+        <span (click)="isOpen = false" style="float:right" class="glyphicon glyphicon-remove"></span>
+    </div>
+    <div class="message-body">
+        <span style="padding:5px;border-radius:6px;background-color:#3ca7ff" *ngFor="let comment of comments" class="message">
+            <span>{{comment.comment}}</span>
+            <span style="font-size:8px; color:rgb(34, 34, 34)">{{comment.employeeName || comment.studentName}} {{comment.createdAt | date}} </span>
+            <br>
+            <br>
+        </span>
+    </div>
+    <div class="message-foot">
+        <input type="text" [disabled]="selectedComplaint.statusId == 6 || selectedComplaint.statusId == 4 " style="display:inline;width:88%"
+            [(ngModel)]="comment" class="form-control">
+        <span class="message-send glyphicon glyphicon-send" (click)="sendComment()"></span>
+    </div>
+</div>

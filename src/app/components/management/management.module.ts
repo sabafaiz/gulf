@@ -3,10 +3,11 @@ import { ManagementComponent } from './management.component';
 import { RouterModule } from '@angular/router';
 import { CustomHttpService } from '../../providers/customHttp.service';
 import { Urls } from '../../providers/app.constant';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
     declarations : [ManagementComponent],
-    imports : [ RouterModule.forChild([
+    imports : [ CommonModule ,RouterModule.forChild([
         {
             path : '',
             redirectTo : 'complaints',
@@ -22,7 +23,15 @@ import { Urls } from '../../providers/app.constant';
                 },
                 {
                     path : 'suggestions',
-                    loadChildren : "app/components/suggestions/suggestions.module#SuggestionsModule"
+                    loadChildren : "app/components/complaints/complaints.module#ComplaintsModule"
+                },
+                {
+                    path : 'appreciations',
+                    loadChildren : "app/components/appreciation/appreciation.module#AppreciationModule"
+                },
+                {
+                  path : 'polls',
+                  loadChildren : "app/components/poll/poll.module#PollModule",
                 }
             ]
         }

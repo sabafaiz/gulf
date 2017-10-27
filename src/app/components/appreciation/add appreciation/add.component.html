@@ -1,0 +1,58 @@
+<div style="color:white;border-radius:3px;background-color:black;padding:4px;">Add Appreciations >>
+    <a  class="glyphicon glyphicon-remove" [routerLink]="['/appreciations','by-you']" style="color:white; float:right"></a>
+</div>
+
+<div>
+    <br>
+    <form #form = "ngForm" (submit)="submit(form)" >
+        <label for="title"> Title </label>
+        <input type="text" [(ngModel)]="title" name="title" required class="form-control"><br>
+        <label for="decription"> Description </label>
+        <textarea name="description" id="description" required [(ngModel)]="description" class="form-control"></textarea><br>
+        <label for="select">{{ heading() }}</label>
+        <select (change)="getModules()" class="form-control" required #op name="fact" id="select" [(ngModel)]="id">
+            <option value="" disabled="disabled" selected="selected">Select</option>
+            <option *ngFor="let li of list" [value]="li.yearId || li.facultyId" >{{ li.yearName || li.facultyName }}</option>
+        </select><br>
+        <label *ngIf="show" for="module">Select Module</label>
+        <select *ngIf="show" class="form-control" (change)="getStudentList()" [(ngModel)]="modId" name="module" id="module">
+            <option value="" disabled="disabled" selected="selected">Select</option>
+            <option *ngFor="let module of moduleList" [value]="module.moduleId">{{module.moduleName}}</option>
+        </select><br>
+        <label *ngIf="subShow" for="module">Select Student</label>
+        <select *ngIf="subShow" class="form-control"  [(ngModel)]="stdId" name="module" id="module">
+            <option value="" disabled="disabled" selected="selected">Select</option>
+            <option *ngFor="let student of studentList"  [value]="student.id">{{student.name}}</option>
+        </select>
+        <input *ngIf="isStudent" type="submit" class="btn btn-primary" [disabled]='form.invalid'>
+        <br>
+        <input *ngIf="!isStudent" type="submit" class="btn btn-primary" [disabled]="form.invalid || stdId==''">
+    </form>
+</div>
+
+<div class="modal fade" id="message" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+              Appreciation Added Successfully
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+
+
+
+
+
+
+
+
+

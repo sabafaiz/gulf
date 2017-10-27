@@ -1,0 +1,32 @@
+<div *ngIf="!isByYou" style="color:white;border-radius:3px;background-color:black;padding:4px;">Appreciations For You >>
+    <!-- <a *ngIf="!isStudent" class="glyphicon glyphicon-plus" [routerLink]="['/polls/add-poll']" style="color:white; float:right"></a> -->
+</div>
+<div *ngIf="isByYou" style="color:white;border-radius:3px;background-color:black;padding:4px;">Appreciations By You >>
+        <a *ngIf="!isStudent" class="glyphicon glyphicon-plus" [routerLink]="['/appreciations/add-appreciation']" style="color:white; float:right"></a>
+</div>
+<br> 
+<a *ngIf="isByYou" class="btn btn-warning" style="float:right;margin-right:10px; " [routerLink]="['/appreciations']">Polls For You</a>
+<a *ngIf="!isByYou" class="btn btn-warning" style="float:right;margin-right:10px; " [routerLink]="['/appreciations','by-you']">Polls By You</a>
+<br>
+<div style="margin-top:20px;">
+    <div *ngIf="isLoader" style="margin:auto;height:60px;width:60px;margin-top:30px;" class="loader"></div>
+    <div class="card" *ngFor="let appreciation of appreciations">
+        <div style="width:13%;display:inline-block">
+            <img class="image" [src]="studentPicUrl || facultyPicUrl || '/assets/profile.png'" alt="">
+        </div>
+        <div style="width:82%;display:inline-block;vertical-align:top;">
+            <b> {{appreciation.title}} </b>
+            <br> <br>
+            <div style="width:20%;display:inline-block;vertical-align:top;">
+                <b>From</b> <br> 
+                {{appreciation.facultyName || appreciation.studentName}} <br>   
+                {{appreciation.createdAt | date}}
+            </div>
+            <div style="width:78%;display:inline-block;">
+                <b>Description</b><br>
+                {{appreciation.description}}
+            </div>
+        </div>    
+    </div>
+    <div><span *ngIf="isMore" (click)="getAppreciationFor()" class="glyphicon glyphicon-chevron-down"></span> </div>
+</div>

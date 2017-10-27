@@ -29,7 +29,13 @@ export class ComplaintsService{
     }
 
     getCategory(){
-        return this.http.get( this.url.serverUrl + `/${this.getType()}/${this.serviceType}/category`) 
+        if(this.getType() == 'st'){
+            return this.http.get( this.url.serverUrl + `/${this.getType()}/${this.serviceType}/category`);
+        }
+        else{
+            return this.http.get( this.url.serverUrl + `/${this.getType()}/${this.serviceType}/filter/category`);    
+        }
+         
     }
 
     getFaculty(){
@@ -109,5 +115,17 @@ export class ComplaintsService{
 
     search( pgNo:any, searchQuery : any){
         return this.http.post( this.url.serverUrl + `/${this.getType()}/complaint/search/page/${pgNo}`, searchQuery);
+    }
+
+    filter( filterBy:any, filterValue :any, pgNo : any ){
+        return this.http.get( this.url.serverUrl + `/${this.getType()}/complaint/filter/${filterBy}/${filterValue}/page/${pgNo}`);
+    }
+
+    sort(sortBy : any, pgNo:any){
+        return this.http.get( this.url.serverUrl + `/${this.getType()}/complaint/sort/${sortBy}/page/${pgNo}`)
+    }
+
+    filterSearch(filterBy:any, filterValue:any, pgNo:any, searchKeyword:any){
+        return this.http.post( this.url.serverUrl + `/${this.getType()}/complaint/filter/${filterBy}/${filterValue}/search/page/${pgNo}`,searchKeyword);
     }
 }
