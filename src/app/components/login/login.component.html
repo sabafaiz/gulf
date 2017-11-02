@@ -1,15 +1,75 @@
-<div style="height:100%">
-    <div style="text-align:center; ">
-        <ul class="list">
-            <li [ngClass]="type == 'management'? 'list-selected' : ''" (click)="setLoginType('management')" class="list-items">Management</li>
-            <li [ngClass]="type == 'student'? 'list-selected' : ''" (click)="setLoginType('student')" class="list-items">Student</li>
-        </ul><br>
-        <form [formGroup]="loginForm" (ngSubmit)="verifyUser()" > 
-            <!-- <label for="username">Username : </label> -->
-            <input type="text" id="username" formControlName="username" placeholder="Username"><br><br>
-            <!-- <label for="password">Password : </label> -->
-            <input type="password" id="password" formControlName="password" placeholder="Password"><br><br>
-            <input class="btnn btn" type="submit" value="Login">
-        </form>
+<!-- <div class="login-bg">
+    <div class="row">
+      <div class="form-bg">
+            <div class="profile-pic">
+                <img src="../../assets/manager1.png" [ngClass]="type == 'management'? 'list-selected' : ''" (click)="setLoginType('management')" class="pic1" />
+                <p class="management-text" [ngClass]="type == 'management'? 'list-selected-text' : ''">Management</p>
+                <img src="./assets/student1.png" [ngClass]="type == 'student'? 'list-selected' : ''" (click)="setLoginType('student')" class="pic2" />
+               <p class="student-text" [ngClass]="type != 'management'? 'list-selected-text' : ''">Student</p>
+            </div>
+            <h2 class="login-text">LOGIN</h2>
+            <form [formGroup]="loginForm" (ngSubmit)="verifyUser()" class="form-bottom">
+                <i class="fa fa-user fa-icon" aria-hidden="true">
+                    <input type="text" id="username" formControlName="username" placeholder="Username" class="input"></i><br><br>
+
+                <i class="fa fa-unlock fa-icon" aria-hidden="true">
+                     <input type="password" id="password" formControlName="password" placeholder="Password" class="input"></i><br><br>
+                <input class="btnn btn" type="submit" value="Login">
+            </form>
+         </div>       
+    </div>
+</div> -->
+
+
+
+
+
+
+
+<!-- 
+<div class="login-box">
+    <div class="row">
+        <div class="center-block select-images">
+                <img src="../../assets/manager1.png" [ngClass]="type == 'management'? 'list-selected' : ''" (click)="setLoginType('management')" class="pic1" />
+                
+                <img src="./assets/student1.png" [ngClass]="type == 'student'? 'list-selected' : ''" (click)="setLoginType('student')" class="pic2" />
+         </div>
+                         <div class="display-block">
+                        <span [ngClass]="type == 'management'? 'list-selected-text' : ''" class="text1">Management</span>
+                        <p [ngClass]="type != 'management'? 'list-selected-text' : ''" class="text2">Student</p>
+                </div>
+    </div>
+</div> --> 
+
+
+<div class="login-bg">
+    <div class="form-bg">
+        <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                        <img src="../../assets/manager1.png" [ngClass]="type == 'management'? 'list-selected' : ''" (click)="setLoginType('management')" class="pic1 centre-block" />
+                        <p [ngClass]="type == 'management'? 'list-selected-text' : ''" class="text1">Management</p>
+                
+                
+                    </div>
+                <div class="col-md-6 col-sm-6 col-lg-6">
+                        <img src="./assets/student1.png" [ngClass]="type == 'student'? 'list-selected' : ''" (click)="setLoginType('student')" class="pic2 centre-block" />
+                        <p [ngClass]="type != 'management'? 'list-selected-text' : ''" class="text2">Student</p>
+                </div>
+            
+            
+        </div>
+        <div class="row">
+            <h3 class="login-text">Login</h3>
+            <div class="col-md-12 col-sm-12 col-lg-12">
+                    <form [formGroup]="loginForm" (ngSubmit)="verifyUser()" class="form-bottom">
+                            <i class="fa fa-user fa-icon" aria-hidden="true">
+                                <input type="text" id="username" formControlName="username" placeholder="Username" class="input"></i><br><br>
+            
+                            <i class="fa fa-unlock fa-icon" aria-hidden="true">
+                                 <input type="password" id="password" formControlName="password" placeholder="Password" class="input"></i><br><br>
+                            <input class="btnn btn" type="submit" value="Login">
+                        </form>
+            </div>
+        </div>
     </div>
 </div>

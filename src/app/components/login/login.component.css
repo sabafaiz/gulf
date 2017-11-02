@@ -2,13 +2,14 @@
     padding-left : 0px;
     width:225px;
     margin:auto;
+    margin-top: -104px;
 }
 
 .list-items{
     width:49%;
     list-style-type : none;
     border : 1px solid black;
-    border-radius : 5px;
+    border-radius : 0px;
     padding : 6px;
     display : inline-block;
     cursor: pointer;
@@ -16,7 +17,13 @@
 
 .list-selected{
     color:white;
-    background-color:black;
+    background-color:#11998e;
+    border-radius: 50%;
+    /* border-bottom: 15px solid #11998e; */
+}
+.list-selected-text{
+    color: #11998e;
+    font-weight: bold;
 }
 
 #username , #password{
@@ -26,7 +33,119 @@
 
 .btnn{
     height : 40px;
-    width : 225px;
+    width : 100px;
     color : white;
-    background-color: black;
+    background-color: #11998e;
+    margin: auto;
+    display: block;
+}
+
+
+/* new css */
+.login-bg{
+    padding:10% 0 10% 0 10%;
+ height: 100vh;
+ min-height: 100%;
+width: 100%;
+background-color: #11998e;
+background:-webkit-linear-gradient(to right, #38ef7d, #11998e)!important;  /* Chrome 10-25, Safari 5.1-6 */
+background:linear-gradient(to right, #38ef7d, #11998e)important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+
+.form-bg {
+    background-color:#eee;
+    color:#666;
+    padding:0 90px 0 90px;
+    border-radius:10px;
+    position: absolute;
+    border:1px solid #fff;
+    margin: auto;
+    top: 0px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 350px;
+    height: 350px;
+    box-shadow: 10px 10px 5px #130f0f;
+}
+.align-center {
+    text-align:center;
+}
+
+
+.profile{
+ background-color: red;
+ height: 150px;
+ width: 150px;
+ position: absolute;
+ 
+}
+
+.form-bottom{
+    /* margin-top: 100px; */
+}
+
+.login-text{
+    text-align: center;
+}
+
+.fa-icon{
+    font-size: 15px;
+   
+}
+
+.input{
+background-color: #eeeeee;
+border-bottom: 1px solid #11998e;
+border-width: 0 0 1px 0;
+padding-top: 18px;
+outline:none;
+}
+
+.pic1{
+    width: 50px;
+    height: 50px;
+   
+
+  
+}
+.centre-block{
+    margin: auto;
+    display:block;
+}
+
+.text1{
+   text-align:center;
+    font-size: 11px;
+}
+
+
+.pic2{
+    width: 50px;
+    height: 50px;
+  
+}
+
+.text2{
+    text-align:center;
+    font-size: 11px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0) inset;
+}
+
+
+.login-box{
+    /* width:80%; */
+    background:#c0c0c0;
+}
+
+.select-images{
+    width:200px;
 }
