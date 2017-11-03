@@ -121,3 +121,37 @@
 /* add padding  */
 .left-addon input  { padding-left:  30px; }
 .right-addon input { padding-right: 30px; }
+
+/* /* ,,,,,,,,,,,.....................new code,,,,,,,,,,,,,,,..................................... */
+
+.page-item{
+    background-color: white;
+    list-style: none;
+  }
+.header-text{
+    color: ;
+    font-size: 32px;
+    font-family: unset;
+}
+
+.grey-box{
+background:#493d55;
+padding: 10px;
+color:#a49eaa;
+transition:  1s;
+}
+
+.grey-box:hover{
+    color:white;
+}
+
+.white-box{
+    background: white;
+    color: #a49eaa;
+    transition: 1s;
+    padding: 10px;
+}
+
+.white-box:hover{
+    color:#16a085;
+}
