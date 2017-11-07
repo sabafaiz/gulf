@@ -1,0 +1,5 @@
+<div style="color:white;border-radius:3px;background-color:black;padding:4px;">Surveys By You >> 
+    <a *ngIf="!isStudent" class="glyphicon glyphicon-plus" [routerLink]="['/polls/add-poll']" style="color:white; float:right"></a>
+</div>
+<a *ngIf="!isStudent" class="btn btn-warning" style="float:right;margin-right:10px; " [routerLink]="['/polls/for-me']">Polls For You</a>
+<a *ngIf="!isStudent" class="btn btn-danger" style="float:right;margin-right:10px; " routerLink="/polls/closed-polls"> Closed  Polls</a>

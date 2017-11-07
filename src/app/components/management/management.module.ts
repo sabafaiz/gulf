@@ -32,6 +32,10 @@ import { CommonModule } from '@angular/common';
                 {
                   path : 'polls',
                   loadChildren : "app/components/poll/poll.module#PollModule",
+                },
+                {
+                  path : 'surveys',
+                  loadChildren : "app/components/survey/survey.module#SurveyModule",
                 }
             ]
         }
