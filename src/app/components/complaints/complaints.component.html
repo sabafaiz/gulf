@@ -321,10 +321,40 @@
     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 grey-box text-center">
         <i class="fa fa-home" aria-hidden="true"></i> HOME
     </div>
-    <div class="col-md-8 col-sm-8 col-sm-8 col-xs-12 white-box">
-       COMPLAINTS   
+    <div class="col-md-8 col-sm-8 col-sm-8 col-xs-12 white-box text-center">
+        <i class="fa fa-thumbs-down" aria-hidden="true"></i> COMPLAINTS   
       </div>
-      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="background:pink;">
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pink-box text-center">
        hi saba
       </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <span style="float:left" *ngIf="filterBy != ''" (click)="complaints=complaintsCopy;removeFilter()" class="glyphicon glyphicon-remove"></span>
+        
+        <!-- sort By -->
+        <ul class="nav navbar-nav" style="cursor:pointer;margin-left:8px;">
+            <li>
+                <a class="dropdown-toggle" style="padding:7px" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-sort"></span> Sort By : {{sortBy}}
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" (click)="sort()">
+                    <li>
+                        <a (click)="sortBy = 'title'">Title</a>
+                    </li>
+                    <li>
+                        <a (click)="sortBy = 'status'">Status</a>
+                    </li>
+                    <li>
+                        <a (click)="sortBy = 'category'">Category</a>
+                    </li>
+                </ul>                   
+            </li>
+        </ul>
+    </div> 
+    <!-- row -->
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <span style="float:left" *ngIf="sortBy != ''" (click)="complaints=complaintsCopy;removeSort()" class="glyphicon glyphicon-remove"></span>
+    </div>
 </div>
