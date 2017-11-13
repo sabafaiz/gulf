@@ -1,8 +1,9 @@
 .card{
+    background-color: white;
     float: left;
     width : 30%;
     margin: 1%;
-    border:2px solid grey;
+
     padding : 10px;
     border-bottom-width : 4px;    
 }
@@ -53,7 +54,15 @@
     border-radius: 5px;
     background-color: black;
 }
-
+.dropdown-menu{
+    border-radius: 0px!important;
+    font-size:11px;
+    font-weight: 300px;
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0)!important;
+}
+.sub-items li a{
+    color: black!important;
+}
 
 .dropdown-submenu {
     position: relative;
@@ -82,9 +91,9 @@
     border-color: transparent;
     border-style: solid;
     border-width: 5px 0 5px 5px;
-    border-left-color: #ccc;
+    border-left-color: #000000;
     margin-top: 5px;
-    margin-right: -10px;
+    margin-right: 20px;
 }
 
 .dropdown-submenu:hover>a:after {
@@ -102,6 +111,8 @@
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
+
+
 
 .inner-addon { 
     position: relative; 
@@ -139,6 +150,7 @@ background:#493d55;
 padding: 10px;
 color:#a49eaa;
 transition:  1s;
+font-size:13px;
 }
 
 .grey-box:hover{
@@ -150,6 +162,7 @@ transition:  1s;
     color: #a49eaa;
     transition: 1s;
     padding: 10px;
+    font-size:13px;
 }
 
 .white-box:hover{
@@ -158,11 +171,172 @@ transition:  1s;
 
 .pink-box{
     background: #e05d6f;
-    padding: 10px;
+    /* padding: 3px; */
     color: white;
     transition:  1s;
 }
-
 .pink-box:hover{
-    background: #F02E4B;
+    background: #DA364F;
+}
+
+.navbar-nav{
+    cursor:pointer;
+    margin-left:8px;
+    color: white;
+}
+    
+.navbar-nav a{
+    color:white;
+}
+
+.nav li a:hover {
+    background-color: rgba(238, 238, 238, 0);
+}
+
+.nav .open a, .nav {
+    background-color: rgba(238, 238, 238, 0);
+}
+
+.dropdown-toggle{
+    padding:9px;
+    font-size:15px;
+}
+
+.small-size{
+    font-size:10px;
+}
+
+.font-color {
+    color: black!important;
+    font-size: 10px!important;
+    font-weight: 300px!important;
+}
+
+/* model */
+.modal-content{
+    border-radius: 0px;
+}
+
+.model-head{
+    padding: 5px!important;
+}
+
+
+/* new box */
+.box{
+    background-color: white;
+    padding: 10px;
+    margin: 10px;
+    margin-top: 26px;
+    height: 350px;
+    border-top: 2px solid black;
+    transition: 0.3s;
+}
+
+.box:hover{
+    box-shadow: 0 6px 10px #ad9f9f;
+}
+
+.box img{
+    border-radius: 50%;
+    height: 150px;
+    margin: auto;
+    display: block;
+    padding: 10px;
+}
+
+.box  .title{
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+}
+
+.box .detail{
+    font-size:15px;
+    font-weight: 400px;
+
+}
+
+.box .detail table tr td{
+    padding: 6px;
+}
+
+.box .detail table{
+    margin: auto;
+}
+/* new box*/
+
+.btn-theme{
+    margin: auto;
+    display: block;
+    font-size: 15px;
+}
+
+.student-details img{
+    width: 100px;
+}
+
+.student-details{
+    padding:10px;
+    color: #616f77;  
+    font-size: 14px;
+    font-weight: 400px;
+    text-align: center;
+    margin: auto;
+    display: block;
+}
+
+.model-body{
+    padding-top: 0px;
+}
+
+.title-header table td{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    transition: 1s;
+}
+
+
+
+.title-name{
+    font-size: 20px;
+    font-weight: 700;
+    color: #616f77;    
+}
+.date-name{
+    color:#95a2a9; 
+    transition: 0.5s;
+    font-weight: 700;
+    font-size:14px;    
+}
+
+.date-name:hover{
+    color: #616f77;;
+}
+
+.close-name{
+    color:#95a2a9; 
+    transition: 0.5s;
+    font-weight: 700;
+    font-size:14px;   
+}
+.close-name:hover{
+    background-color: #16a085;
+    color: white;
+}
+
+.description{
+    color: #616f77;  
+    font-size: 14px;
+    font-weight: 400px;
+ 
+}
+.modal-body table tr td{
+    padding: 5px;
+}
+
+.button-option{
+    padding-top: 10px;
+    float: right
 }
